@@ -1,4 +1,4 @@
-package br.com.mechanic.challenge.swapichallenge.controller;
+package br.com.mechanic.challenge.swapichallenge.resource;
 
 import br.com.mechanic.challenge.swapichallenge.dto.PlanetDto;
 import br.com.mechanic.challenge.swapichallenge.dto.PlanetResultDto;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/planets")
-public class Planets {
+@RequestMapping("/api/v1/planetas")
+public class PlanetasResource {
 
     @Autowired
     StarWarsService starWarsService;

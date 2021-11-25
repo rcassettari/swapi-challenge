@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Component
-@FeignClient(name = "swApi", url = "https://swapi.dev/api")
+@FeignClient(name = "${swapiClient.feign.name}", url = "${swapiClient.feign.url}")
 public interface StarWarsApiClient {
 
     @GetMapping("/films")

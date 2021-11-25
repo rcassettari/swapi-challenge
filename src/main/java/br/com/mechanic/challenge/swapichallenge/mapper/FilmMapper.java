@@ -4,7 +4,6 @@ import br.com.mechanic.challenge.swapichallenge.dto.FilmDto;
 import br.com.mechanic.challenge.swapichallenge.dto.FilmsResultDto;
 import br.com.mechanic.challenge.swapichallenge.model.Film;
 import br.com.mechanic.challenge.swapichallenge.model.FilmsResult;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

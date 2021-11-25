@@ -12,17 +12,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class StarWarsServiceImpl implements StarWarsService {
 
-    @Autowired
-    StarWarsApiClient starWarsApiClient;
+    private StarWarsApiClient starWarsApiClient;
+
+    private final FilmMapper filmMapper = FilmMapper.INSTANCE;
 
     @Autowired
-    FilmMapper filmMapper;
+    private PeopleMapper peopleMapper;
 
     @Autowired
-    PeopleMapper peopleMapper;
+    private PlanetMapper planetMapper;
 
     @Autowired
-    PlanetMapper planetMapper;
+    public StarWarsServiceImpl( StarWarsApiClient starWarsApiClient)
+    {
+        this.starWarsApiClient = starWarsApiClient;
+    }
 
     @Override
     public FilmsResultDto getFilms() {

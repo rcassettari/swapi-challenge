@@ -1,6 +1,5 @@
 package br.com.mechanic.challenge.swapichallenge.model;
 
-import br.com.mechanic.challenge.swapichallenge.dto.FilmDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;

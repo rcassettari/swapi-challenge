@@ -1,7 +1,7 @@
-package br.com.mechanic.challenge.swapichallenge.controller;
+package br.com.mechanic.challenge.swapichallenge.resource;
 
-import br.com.mechanic.challenge.swapichallenge.dto.FilmDto;
-import br.com.mechanic.challenge.swapichallenge.dto.FilmsResultDto;
+import br.com.mechanic.challenge.swapichallenge.dto.PeopleDto;
+import br.com.mechanic.challenge.swapichallenge.dto.PeopleResultDto;
 import br.com.mechanic.challenge.swapichallenge.service.StarWarsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,22 +10,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/films")
-public class Films {
+@RequestMapping("/api/v1/pessoas")
+public class PessoasResource {
 
     @Autowired
     StarWarsService starWarsService;
 
     @GetMapping
-    public FilmsResultDto getFilms()
+    public PeopleResultDto getPeople()
     {
-        return starWarsService.getFilms();
+        return starWarsService.getPeople();
     }
 
     @GetMapping("/{id}")
-    public FilmDto getFilm( @PathVariable Long id )
+    public PeopleDto getPeopleByCode( @PathVariable Long id )
     {
-        return starWarsService.getFilm(id);
+        return starWarsService.getPeopleByCode(id);
     }
 
 }
