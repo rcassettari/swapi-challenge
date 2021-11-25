@@ -2,9 +2,13 @@ git <h2>API REST de Consulta a dados do filme Star Wars Spring Boot</h2>
 
 (A) REQUISITO PRINCIPAL IMPORTANTE para rodar: baixar o programa, mudar a string de conexão com o banco de dados MySQL para que tenha um nome de servidor válido e um usuário e senha válidos. A mudança deverá ocorrer no arquivo application.properties , nas linhas indicadas abaixo :
 
+```
 spring.datasource.url=jdbc:mysql://localhost/starWars?createDatabaseIfNotExist=true&useSSL=true
+
 spring.datasource.username=root
+
 spring.datasource.password=fiap
+```
 
 Para o projeto foi usado o banco de dados MySQL versão 5.7;
 
@@ -16,29 +20,37 @@ Exemplo: [Script para tabelas do banco de dados e usuários](https://github.com/
 
 (C) Para obter um token de acesso é necessário fazer um POST no URL:
 
+```
 http://localhost:8080/oauth/token
+```
 
 NOTE: Não há login que mantenha estado, o API é stateless. Poderia ser feito um token simples mantido em sessão, mas isso seria ruim pois tornaria a API dependente de sessão o que geraria a necessidade de implementar um mecanismo para controle de sessões caso o API fosse usado em ambiente de nuvem em várias instâncias de execução, por exemplo.
 Caso haja futuramente a necessidade de registrar quando um cliente fez o acesso, há outras maneiras, como eventos.
 
 O POST que obtêm o token de acesso deverá conter, usando Basic Authentication:
 
+```
 - Username : correspondente ao clientId da aplicação chamadora do API;
 - Password : correspondente ao client secret;
+```
 
-NOTE: Poderíamos colocar diversas aplicações como cliente, porém, por convência, colocamos apenas uma , com as seguintes configurações no arquivo application.properties:
+NOTE: Poderíamos colocar diversas aplicações como cliente, porém, por conveniência, colocamos apenas uma, com as seguintes configurações no arquivo application.properties:
 
+```
 swapiChallenge.authorizationServer.client.clientId=angular
 swapiChallenge.authorizationServer.client.secret=@fter@tt
 swapiChallenge.authorizationServer.client.accessTokenValiditySeconds=2000
 swapiChallenge.authorizationServer.client.refreshTokenValiditySeconds=86400
+```
 
 O Body x-www-form-urlencoded deverá conter : 
 
+```
 - client : correspondente ao clientId da aplicação chamadora do API;
 - username : correspondente ao usuário FINAL enviado pela aplicação, cadastrado em tabela do banco de dados MySQL;
 - password : correspondente ao password do usuário FINAL enviado pela aplicação, cadastrado em tabela do banco de dados MySQL;
 - grant_type : password 
+```
 
 Foram usados tokens JWT para esse projeto, inclusive com o uso de token de refresh.
 
@@ -81,15 +93,21 @@ A API serve como uma camada extra sobre uma API pré-existente, que disponibiliz
 
 1 - Acesso a dados pré-existentes sobre os filmes da série:
 
+```
 https://swapi.dev/api/films
+```
 
 2 - Acesso a dados pré-existentes sobre os personagens da série:
 
+```
 https://swapi.dev/api/people
+```
 
 3 - Acesso a dados pré-existentes sobre os planetas da série:
 
+```
 https://swapi.dev/api/planets
+```
 
 Foram feitos e abordados os seguintes tópicos:
 
@@ -149,7 +167,7 @@ Abaixo, seguem links de referência usados no projeto:
 * [Spring Data JPA](https://docs.spring.io/spring-boot/docs/2.6.0/reference/htmlsingle/#boot-features-jpa-and-spring-data)
 * [Spring Security](https://docs.spring.io/spring-boot/docs/2.6.0/reference/htmlsingle/#boot-features-security)
 
-### Guides
+### Guias
 Os seguintes guias ilustram como usar algumas funcionalidades de forma concreta:
 
 * [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
@@ -158,10 +176,9 @@ Os seguintes guias ilustram como usar algumas funcionalidades de forma concreta:
 * [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
 * [Securing a Web Application](https://spring.io/guides/gs/securing-web/)
 * [Spring Boot and OAuth2](https://spring.io/guides/tutorials/spring-boot-oauth2/)
-* [Authenticating a User with LDAP](https://spring.io/guides/gs/authenticating-ldap/)
 * [Accessing data with MySQL](https://spring.io/guides/gs/accessing-data-mysql/)
 
-### Additional Links
+### Links Adicionais
 Essas referências adicionais também podem ajudar:
 
 * [Declarative REST calls with Spring Cloud OpenFeign sample](https://github.com/spring-cloud-samples/feign-eureka)
