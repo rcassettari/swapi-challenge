@@ -13,8 +13,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static br.com.mechanic.challenge.swapichallenge.utils.FilmsResultUtils.*;
 import static br.com.mechanic.challenge.swapichallenge.utils.FilmUtils.*;
@@ -59,6 +60,15 @@ public class SwApiChallengeServiceTests {
         FilmDto receivedFilmDto = starWarsService.getFilm(filmIdToGet);
 
         assertEquals(receivedFilmDto, expectedFilmDto);
+    }
+
+    @Test
+    void testGivenInvalidFilmIdThenThrowException() {
+        var invalidFilmId = 1000L;
+        when(starWarsApiClient.getFilm(invalidFilmId))
+                .thenThrow(feign.FeignException.NotFound.class);
+
+        assertThrows(feign.FeignException.NotFound.class, () -> starWarsService.getFilm(invalidFilmId));
     }
 
 }

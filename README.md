@@ -121,7 +121,7 @@ Foram feitos e abordados os seguintes tópicos:
 * Desenvolvimento de tabelas do banco de dados MySQL e entities ORM correspondentes para uso na camada de segurança, bem como seu correspondente repositório;
 * Criação de configuradores para o resource server e authorization server, usando password flow do OAuth2;
 * Foram feitas validações simples nos DTOs de entrada, no caso de criação do usuário novo e da mudança de senha;
-* Desenvolvimento de 2 testes unitários para validação de funcionalidades ( consulta geral de filmes e consulta de filme por id );
+* Desenvolvimento de 3 testes unitários para validação de funcionalidades ( consulta geral de filmes, consulta de filme por id, consulta de filme com id inexistente );
 * Foi habilitado o actuator na API, para facilitar o monitoramento da mesma.
   O endPoint do actuator está disponível em :
 
