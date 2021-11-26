@@ -1,9 +1,13 @@
 package br.com.mechanic.challenge.swapichallenge.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
+@NoArgsConstructor
 public class PlanetResultDto {
 
     @JsonProperty("contagem")
@@ -15,35 +19,4 @@ public class PlanetResultDto {
     @JsonProperty("resultados")
     private List<PlanetDto> resultados;
 
-    public Integer getContagem() {
-        return contagem;
-    }
-
-    public void setContagem(Integer contagem) {
-        this.contagem = contagem;
-    }
-
-    public String getProximo() {
-        return proximo;
-    }
-
-    public void setProximo(String proximo) {
-        this.proximo = proximo;
-    }
-
-    public String getAnterior() {
-        return anterior;
-    }
-
-    public void setAnterior(String anterior) {
-        this.anterior = anterior;
-    }
-
-    public List<PlanetDto> getResultados() {
-        return resultados;
-    }
-
-    public void setResultados(List<PlanetDto> resultados) {
-        this.resultados = resultados;
-    }
 }
