@@ -1,6 +1,8 @@
 package br.com.mechanic.challenge.swapichallenge.service;
 
+import br.com.mechanic.challenge.swapichallenge.dto.FilmDto;
 import br.com.mechanic.challenge.swapichallenge.dto.FilmsResultDto;
+import br.com.mechanic.challenge.swapichallenge.model.Film;
 import br.com.mechanic.challenge.swapichallenge.model.FilmsResult;
 import br.com.mechanic.challenge.swapichallenge.restClient.StarWarsApiClient;
 import br.com.mechanic.challenge.swapichallenge.service.impl.StarWarsServiceImpl;
@@ -15,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.*;
 import static br.com.mechanic.challenge.swapichallenge.utils.FilmsResultUtils.*;
+import static br.com.mechanic.challenge.swapichallenge.utils.FilmUtils.*;
 
 @ExtendWith(MockitoExtension.class)
 public class SwApiChallengeServiceTests {
@@ -42,6 +45,20 @@ public class SwApiChallengeServiceTests {
 
         assertFalse(expectedFilmsResultDto.getResultados().isEmpty());
         assertEquals(expectedFilmsResultDto.getContagem(), filmsResultDto.getContagem());
+    }
+
+    @Test
+    void testGivenValidFilmIdThenReturnThisFilm()  {
+
+        Film expectedRegisteredFilm = createFakeFilmModel();
+        FilmDto expectedFilmDto = createFakeFilmDto();
+        Long filmIdToGet = 1l;
+
+        when(starWarsApiClient.getFilm(filmIdToGet)).thenReturn(expectedRegisteredFilm);
+
+        FilmDto receivedFilmDto = starWarsService.getFilm(filmIdToGet);
+
+        assertEquals(receivedFilmDto, expectedFilmDto);
     }
 
 }

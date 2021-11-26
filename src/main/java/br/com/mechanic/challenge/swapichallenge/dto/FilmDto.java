@@ -3,6 +3,7 @@ package br.com.mechanic.challenge.swapichallenge.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Objects;
 
 public class FilmDto {
 
@@ -145,5 +146,32 @@ public class FilmDto {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FilmDto filmDto = (FilmDto) o;
+        return Objects.equals(titulo, filmDto.titulo) &&
+               Objects.equals(episodioCodigo, filmDto.episodioCodigo) &&
+               Objects.equals(prologo, filmDto.prologo) &&
+               Objects.equals(diretor, filmDto.diretor) &&
+               Objects.equals(produtor, filmDto.produtor) &&
+               Objects.equals(dataEntrega, filmDto.dataEntrega) &&
+               Objects.equals(personagens, filmDto.personagens) &&
+               Objects.equals(planetas, filmDto.planetas) &&
+               Objects.equals(navesEspaciais, filmDto.navesEspaciais) &&
+               Objects.equals(veiculos, filmDto.veiculos) &&
+               Objects.equals(especies, filmDto.especies) &&
+               Objects.equals(dataCriacao, filmDto.dataCriacao) &&
+               Objects.equals(dataEdicao, filmDto.dataEdicao) &&
+               Objects.equals(url, filmDto.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(titulo, episodioCodigo, prologo, diretor, produtor, dataEntrega, personagens, planetas,
+                navesEspaciais, veiculos, especies, dataCriacao, dataEdicao, url);
     }
 }
