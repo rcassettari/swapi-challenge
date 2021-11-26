@@ -122,17 +122,56 @@ Foram feitos e abordados os seguintes tópicos:
 * Criação de configuradores para o resource server e authorization server, usando password flow do OAuth2;
 * Foram feitas validações simples nos DTOs de entrada, no caso de criação do usuário novo e da mudança de senha;
 * Desenvolvimento de 1 teste unitário para validação de funcionalidade;
-* Visualização das funcionalidades do API usando o Open-API:
-
-```
-http://localhost:8080/swagger-ui.html
-```
-
 * Foi habilitado o actuator na API, para facilitar o monitoramento da mesma.
   O endPoint do actuator está disponível em :
 
 ```
 http://localhost:8080/actuator/health
+```
+
+* Para tornar um pouco divertido, foram criadas algumas regras:
+
+REGRA 1 - Somente o usuário com o role 'ROLE_CREATE_USER' pode criar usuários novos.
+No script de criação do banco de dados foi incluso um usuário com essa ROLE :
+
+```
+-- senha = admin
+INSERT INTO usuario (nome, email, senha) values ('Administrator', 'admin@test.com', '$2a$10$X607ZPhQ4EgGNaYKt3n4SONjIv9zc.VMWdEuhCuba7oLAL5IvcL5.');
+```
+
+Isso serve para validar o uso do Spring Security por acesso via regra (RBAC), já que há um método da classe UsuariosResource.java anotado para esse fim :
+
+```
+@PreAuthorize("hasAuthority('ROLE_CREATE_USER')")
+@PostMapping
+@PreAuthorize("hasAuthority('ROLE_CREATE_USER')")
+public ResponseEntity<NewUserResponseDto> createUser(@RequestBody @Valid NewUserDto newUserDto) throws
+```
+
+REGRA 2 - Na inclusão de um novo usuário ou na alteração de senha de um usuário já existente, os campos senha e confirmacaoSenha devem ter conteúdo igual, caso contrário será gerada um exception;
+Por exemplo:
+
+```
+"senha": "1000",
+"confirmacaoSenha": "1000"
+```
+
+E no alterar senha, conforme trecho abaixo:
+
+```
+"novaSenha" : "tester1",
+"confirmacaoSenha": "tester1"
+```
+
+REGRA 3 - Por questões de segurança, a senha não é retornada nos endPoints dos resources, é apenas avaliada em um DTO interno criado especificamente para isso.
+Essa prática serve para evitar o trânsito de informações nem sempre desejadas no destino, expondo o API a riscos adicionais.
+
+REGRA 4 - Para dificultar um pouco a visualização imediata das senhas o armazenamento no banco de dados é feito de forma encodada; 
+Por exemplo, veja o script de inclusão de um usuário típico, para os testes iniciais:
+
+```
+-- senha = tester
+INSERT INTO usuario (nome, email, senha) values ('Maria', 'maria@test.com', '$2a$10$AloFf0220iZ2vbhyQVB2iealQ96I8fFDJtrhM97M.PAfZqPPB3Raq');
 ```
 
 São necessários os seguintes pré-requisitos para a execução do projeto desenvolvido:
@@ -141,7 +180,6 @@ São necessários os seguintes pré-requisitos para a execução do projeto dese
 * Maven 3.8.3 ou versões superiores.
 * Intellj IDEA Community Edition ou sua IDE favorita.
 * Controle de versão GIT instalado na sua máquina.
-* Conta no GitHub para o armazenamento do seu projeto na nuvem.
 * Uma instância do MySQL, na sua máquina ou não, mas acessível pela rede onde a API irá rodar;
 
 Abaixo, seguem links de referência usados no projeto:
@@ -156,7 +194,6 @@ Abaixo, seguem links de referência usados no projeto:
 * [Site oficial do GitHub](http://github.com/)
 * [Documentação oficial do Map Struct](https://mapstruct.org/)
 * [Referência para o padrão arquitetural REST](https://restfulapi.net/)
-* [Referência para o springdoc-openapi](https://springdoc.org/)
 * [Flyway Migration](https://docs.spring.io/spring-boot/docs/2.6.0/reference/htmlsingle/#howto-execute-flyway-database-migrations-on-startup)
 * [OpenFeign](https://docs.spring.io/spring-cloud-openfeign/docs/current/reference/html/)
 

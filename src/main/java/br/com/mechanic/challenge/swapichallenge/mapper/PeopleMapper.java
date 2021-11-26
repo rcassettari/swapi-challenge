@@ -44,6 +44,6 @@ public interface PeopleMapper {
             @Mapping(source = "previous", target = "anterior"),
             @Mapping(source = "results", target = "resultados")
     })
-    PeopleResultDto modelsToDtos(PeopleResult peopleResult);
+    PeopleResultDto peopleResultToPeopleResultDto(PeopleResult peopleResult);
 
 }

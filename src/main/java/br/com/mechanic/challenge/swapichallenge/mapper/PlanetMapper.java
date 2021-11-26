@@ -42,6 +42,6 @@ public interface PlanetMapper {
             @Mapping(source = "previous", target = "anterior"),
             @Mapping(source = "results", target = "resultados")
     })
-    PlanetResultDto modelsToDtos(PlanetResult planetResult);
+    PlanetResultDto planetResultToPlanetResultDto(PlanetResult planetResult);
 
 }

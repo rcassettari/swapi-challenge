@@ -1,12 +1,12 @@
 package br.com.mechanic.challenge.swapichallenge.mapper;
 
+import br.com.mechanic.challenge.swapichallenge.dto.request.NewUserDto;
 import br.com.mechanic.challenge.swapichallenge.dto.request.UserDtoRequest;
-import br.com.mechanic.challenge.swapichallenge.dto.response.UserDtoResponse;
+import br.com.mechanic.challenge.swapichallenge.dto.response.NewUserResponseDto;
+import br.com.mechanic.challenge.swapichallenge.dto.response.UserForInternalAuthorizationResponseDto;
 import br.com.mechanic.challenge.swapichallenge.entities.Usuario;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-
-import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
@@ -15,10 +15,10 @@ public interface UserMapper {
 
     UserDtoRequest userToUserDtoRequest(Usuario usuario);
 
-    UserDtoResponse userToUserDtoResponse(Usuario usuario);
+    NewUserResponseDto userToNewUserResponseDto(Usuario usuario);
 
-    Usuario userDtoRequestToUser(UserDtoRequest userDtoRequest);
+    Usuario newUserDtoToUser(NewUserDto newUserDto);
 
-    List<UserDtoRequest> usersToUsersDtoRequest(List<Usuario> usuarioList);
+    UserForInternalAuthorizationResponseDto userToUserForInternalAuthorizationResponseDto(Usuario usuario);
 
 }

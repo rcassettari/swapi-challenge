@@ -42,6 +42,6 @@ public interface FilmMapper {
             @Mapping(source = "previous", target = "anterior"),
             @Mapping(source = "results", target = "resultados")
     })
-    FilmsResultDto modelsToDtos(FilmsResult filmsResult);
+    FilmsResultDto filmsResultToFilmsResultDto(FilmsResult filmsResult);
 
 }

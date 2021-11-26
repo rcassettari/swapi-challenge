@@ -1,21 +1,25 @@
 package br.com.mechanic.challenge.swapichallenge.dao;
 
+import br.com.mechanic.challenge.swapichallenge.dto.request.NewUserDto;
 import br.com.mechanic.challenge.swapichallenge.dto.request.UserChangePasswordRequestDto;
-import br.com.mechanic.challenge.swapichallenge.dto.request.UserDtoRequest;
-import br.com.mechanic.challenge.swapichallenge.dto.response.UserDtoResponse;
-import br.com.mechanic.challenge.swapichallenge.entities.Usuario;
+import br.com.mechanic.challenge.swapichallenge.dto.response.NewUserResponseDto;
+import br.com.mechanic.challenge.swapichallenge.dto.response.UserForInternalAuthorizationResponseDto;
+import br.com.mechanic.challenge.swapichallenge.exception.NewUserByDuplicatedEmailAddressNotAllowed;
+import br.com.mechanic.challenge.swapichallenge.exception.NewUserPasswordAndConfirmationPasswordNotMatchException;
+import br.com.mechanic.challenge.swapichallenge.exception.UserNotFoundException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 public interface UserService {
 
-    // TODO: Remove usuario do service. Use Dto.
-    public Optional<Usuario> findByEmail(String email);
+    public UserForInternalAuthorizationResponseDto findByEmail(String email) throws UserNotFoundException;
 
-    public UserDtoResponse createUser(UserDtoRequest userDtoRequest);
+    public NewUserResponseDto createUser(NewUserDto newUserDto) throws NewUserByDuplicatedEmailAddressNotAllowed,
+            NewUserPasswordAndConfirmationPasswordNotMatchException;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void updateUserPassword(Long id, UserChangePasswordRequestDto userChangePasswordRequestDto );
+    public void updateUserPassword(Long id, UserChangePasswordRequestDto userChangePasswordRequestDto)
+            throws UserNotFoundException,
+            NewUserPasswordAndConfirmationPasswordNotMatchException;
+
 }

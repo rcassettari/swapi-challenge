@@ -37,8 +37,6 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/swagger-ui/**").permitAll()
-                .antMatchers("/swagger**").permitAll()
                 .antMatchers("/actuator/health").permitAll()
                 .anyRequest().authenticated()
                 .and()

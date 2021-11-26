@@ -30,7 +30,7 @@ public class StarWarsServiceImpl implements StarWarsService {
 
     @Override
     public FilmsResultDto getFilms() {
-        return filmMapper.modelsToDtos(starWarsApiClient.getFilms());
+        return filmMapper.filmsResultToFilmsResultDto(starWarsApiClient.getFilms());
     }
 
     @Override
@@ -40,7 +40,7 @@ public class StarWarsServiceImpl implements StarWarsService {
 
     @Override
     public PeopleResultDto getPeople() {
-        return peopleMapper.modelsToDtos(starWarsApiClient.getPeople());
+        return peopleMapper.peopleResultToPeopleResultDto(starWarsApiClient.getPeople());
     }
 
     @Override
@@ -50,7 +50,7 @@ public class StarWarsServiceImpl implements StarWarsService {
 
     @Override
     public PlanetResultDto getPlanets() {
-        return planetMapper.modelsToDtos(starWarsApiClient.getPlanets());
+        return planetMapper.planetResultToPlanetResultDto(starWarsApiClient.getPlanets());
     }
 
     @Override
