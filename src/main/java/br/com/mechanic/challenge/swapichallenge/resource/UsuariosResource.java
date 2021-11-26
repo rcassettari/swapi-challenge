@@ -4,9 +4,7 @@ import br.com.mechanic.challenge.swapichallenge.dao.UserService;
 import br.com.mechanic.challenge.swapichallenge.dto.request.NewUserDto;
 import br.com.mechanic.challenge.swapichallenge.dto.request.UserChangePasswordRequestDto;
 import br.com.mechanic.challenge.swapichallenge.dto.response.NewUserResponseDto;
-import br.com.mechanic.challenge.swapichallenge.exception.NewUserByDuplicatedEmailAddressNotAllowed;
-import br.com.mechanic.challenge.swapichallenge.exception.NewUserPasswordAndConfirmationPasswordNotMatchException;
-import br.com.mechanic.challenge.swapichallenge.exception.UserNotFoundException;
+import br.com.mechanic.challenge.swapichallenge.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +33,8 @@ public class UsuariosResource {
     public ResponseEntity updateUserPassword(@PathVariable Long id, @RequestBody @Valid UserChangePasswordRequestDto userChangePasswordRequestDto
                                              ) throws
             UserNotFoundException,
-            NewUserPasswordAndConfirmationPasswordNotMatchException {
+            NewUserPasswordAndConfirmationPasswordNotMatchException,
+            UserNotAllowedException, UserToUpdateMustMatchWithUserFromMailAddressException {
         userService.updateUserPassword(id, userChangePasswordRequestDto);
         return ResponseEntity.noContent().build();
     }

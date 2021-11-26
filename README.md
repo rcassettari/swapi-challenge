@@ -174,6 +174,9 @@ Por exemplo, veja o script de inclusão de um usuário típico, para os testes i
 INSERT INTO usuario (nome, email, senha) values ('Maria', 'maria@test.com', '$2a$10$AloFf0220iZ2vbhyQVB2iealQ96I8fFDJtrhM97M.PAfZqPPB3Raq');
 ```
 
+REGRA 5 - IMPORTANTE PARA EVITAR QUEBRA DE SEGURANÇA - Somente o usuário com o ROLE 'ROLE_CHANGE_USER_PASSWORD' pode mudar a senha de qualquer outro usuário. 
+Cada usuário sempre pode mudar sua própria senha.
+
 São necessários os seguintes pré-requisitos para a execução do projeto desenvolvido:
 
 * Java 12 ou versões superiores.

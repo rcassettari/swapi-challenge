@@ -4,6 +4,7 @@ import br.com.mechanic.challenge.swapichallenge.error.ErrorDetails;
 import br.com.mechanic.challenge.swapichallenge.exception.NewUserByDuplicatedEmailAddressNotAllowed;
 import br.com.mechanic.challenge.swapichallenge.exception.NewUserPasswordAndConfirmationPasswordNotMatchException;
 import br.com.mechanic.challenge.swapichallenge.exception.UserNotAllowedException;
+import br.com.mechanic.challenge.swapichallenge.exception.UserToUpdateMustMatchWithUserFromMailAddressException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -88,4 +89,15 @@ public class SwApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex,errorDetails, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
     }
 
+    @ExceptionHandler(UserToUpdateMustMatchWithUserFromMailAddressException.class)
+    public ResponseEntity<?> handleUserToUpdateMustMatchWithUserFromMailAddressException(UserToUpdateMustMatchWithUserFromMailAddressException ex, WebRequest request) {
+
+        String detail = ex.getMessage();
+
+        ErrorDetails errorDetails = new ErrorDetails();
+        errorDetails.setStatus(HttpStatus.BAD_REQUEST.value());
+        errorDetails.setDetails(detail);
+
+        return handleExceptionInternal(ex,errorDetails, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
 }

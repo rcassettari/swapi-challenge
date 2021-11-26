@@ -6,15 +6,17 @@ import br.com.mechanic.challenge.swapichallenge.dto.request.NewUserDto;
 import br.com.mechanic.challenge.swapichallenge.dto.response.NewUserResponseDto;
 import br.com.mechanic.challenge.swapichallenge.dto.response.UserForInternalAuthorizationResponseDto;
 import br.com.mechanic.challenge.swapichallenge.entities.Usuario;
-import br.com.mechanic.challenge.swapichallenge.exception.NewUserByDuplicatedEmailAddressNotAllowed;
-import br.com.mechanic.challenge.swapichallenge.exception.NewUserPasswordAndConfirmationPasswordNotMatchException;
-import br.com.mechanic.challenge.swapichallenge.exception.UserNotFoundException;
+import br.com.mechanic.challenge.swapichallenge.exception.*;
 import br.com.mechanic.challenge.swapichallenge.mapper.UserMapper;
 import br.com.mechanic.challenge.swapichallenge.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -69,14 +71,28 @@ public class UserServiceImpl implements UserService {
     public void updateUserPassword(Long id, UserChangePasswordRequestDto userChangePasswordRequestDto)
             throws
             UserNotFoundException,
-            NewUserPasswordAndConfirmationPasswordNotMatchException
+            NewUserPasswordAndConfirmationPasswordNotMatchException,
+            UserNotAllowedException,
+            UserToUpdateMustMatchWithUserFromMailAddressException
     {
 
-        verifyIfExists(id);
+        Usuario userToBeUpdated = verifyIfExists(id);
         verifyIfPasswordAndConfirmationPasswordMatch(userChangePasswordRequestDto.getNovaSenha(),
                 userChangePasswordRequestDto.getConfirmacaoSenha(),
                 userChangePasswordRequestDto.getEmail()
         );
+
+        if( ! userChangePasswordRequestDto.getEmail().equals(userToBeUpdated.getEmail()))
+            throw new UserToUpdateMustMatchWithUserFromMailAddressException();
+
+        String userMailAddressFromJwt = getMailAddressFromCurrentJwt();
+        List<String> userRoles = getUserAuthoritiesClaimFromCurrentJwt();
+
+        if (!userToBeUpdated.getEmail().equals(userMailAddressFromJwt) )
+        {
+            if( userRoles == null || ( userRoles != null && !userRoles.contains("ROLE_CHANGE_USER_PASSWORD")))
+                throw new UserNotAllowedException(userMailAddressFromJwt, "ROLE_CHANGE_USER_PASSWORD");
+        }
 
         String newEncodedPassword = passwordEncoder.encode(userChangePasswordRequestDto.getNovaSenha());
         usuarioRepository.updateSenhaByCodigo(id, newEncodedPassword);
@@ -90,6 +106,20 @@ public class UserServiceImpl implements UserService {
     private void verifyIfPasswordAndConfirmationPasswordMatch(String password, String confirmationPassword, String email) throws NewUserPasswordAndConfirmationPasswordNotMatchException {
         if (!password.equals(confirmationPassword))
             throw new NewUserPasswordAndConfirmationPasswordNotMatchException(email);
+    }
+
+    private String getMailAddressFromCurrentJwt() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Jwt jwtFromCurrentContext = (Jwt) authentication.getPrincipal();
+        String userMailAddressFromJwt = jwtFromCurrentContext.getClaimAsString("user_name");
+        return  userMailAddressFromJwt;
+    }
+
+    private List<String> getUserAuthoritiesClaimFromCurrentJwt() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Jwt jwtFromCurrentContext = (Jwt) authentication.getPrincipal();
+        List<String> userAuthoritiesClaim = jwtFromCurrentContext.getClaimAsStringList("authorities");
+        return userAuthoritiesClaim;
     }
 
 }

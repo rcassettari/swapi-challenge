@@ -4,9 +4,7 @@ import br.com.mechanic.challenge.swapichallenge.dto.request.NewUserDto;
 import br.com.mechanic.challenge.swapichallenge.dto.request.UserChangePasswordRequestDto;
 import br.com.mechanic.challenge.swapichallenge.dto.response.NewUserResponseDto;
 import br.com.mechanic.challenge.swapichallenge.dto.response.UserForInternalAuthorizationResponseDto;
-import br.com.mechanic.challenge.swapichallenge.exception.NewUserByDuplicatedEmailAddressNotAllowed;
-import br.com.mechanic.challenge.swapichallenge.exception.NewUserPasswordAndConfirmationPasswordNotMatchException;
-import br.com.mechanic.challenge.swapichallenge.exception.UserNotFoundException;
+import br.com.mechanic.challenge.swapichallenge.exception.*;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +18,8 @@ public interface UserService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void updateUserPassword(Long id, UserChangePasswordRequestDto userChangePasswordRequestDto)
             throws UserNotFoundException,
-            NewUserPasswordAndConfirmationPasswordNotMatchException;
+            NewUserPasswordAndConfirmationPasswordNotMatchException,
+            UserNotAllowedException,
+            UserToUpdateMustMatchWithUserFromMailAddressException;
 
 }
